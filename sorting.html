@@ -6,6 +6,7 @@
 <title>ソートアルゴリズム — AlgoViz</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<script src="js/theme.js"></script>
 </head>
 <body>
 <nav class="nav">
@@ -14,6 +15,8 @@
   <a class="link active" href="sorting.html">ソート</a>
   <a class="link" href="searching.html">探索</a>
   <a class="link" href="pathfinding.html">経路探索</a>
+  <a class="link" href="structures.html">データ構造</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">🌙</button>
 </nav>
 
 <div class="container">
@@ -27,8 +30,10 @@
       <label for="algo">アルゴリズム</label>
       <select id="algo">
         <option value="bubble">バブルソート</option>
+        <option value="cocktail">カクテルソート</option>
         <option value="selection">選択ソート</option>
         <option value="insertion">挿入ソート</option>
+        <option value="shell">シェルソート</option>
         <option value="merge">マージソート</option>
         <option value="quick">クイックソート</option>
         <option value="heap">ヒープソート</option>
@@ -44,7 +49,14 @@
     </div>
     <button class="btn" id="shuffle">🔀 シャッフル</button>
     <button class="btn primary" id="run">▶ 実行</button>
-    <button class="btn danger" id="stop" disabled>■ 停止</button>
+  </div>
+
+  <div class="panel timeline">
+    <button class="btn" id="stepBack" title="1ステップ戻る">◀</button>
+    <button class="btn primary" id="playPause">▶ 再生</button>
+    <button class="btn" id="stepFwd" title="1ステップ進む">▶</button>
+    <input type="range" id="scrub" min="0" max="0" value="0">
+    <span class="value" id="stepLabel">0 / 0</span>
   </div>
 
   <div class="stats">

@@ -7,6 +7,7 @@
 <meta name="description" content="ソート・探索・経路探索アルゴリズムをインタラクティブに可視化して学べる学習サイト。">
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<script src="js/theme.js"></script>
 </head>
 <body>
 <nav class="nav">
@@ -15,6 +16,8 @@
   <a class="link" href="sorting.html">ソート</a>
   <a class="link" href="searching.html">探索</a>
   <a class="link" href="pathfinding.html">経路探索</a>
+  <a class="link" href="structures.html">データ構造</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">🌙</button>
 </nav>
 
 <div class="container">
@@ -28,7 +31,7 @@
     <a class="card" href="sorting.html">
       <div class="icon">📊</div>
       <h3>ソートアルゴリズム</h3>
-      <p>棒グラフが並び替わる様子をリアルタイムに観察。比較・交換の回数もカウントします。</p>
+      <p>棒グラフが並び替わる様子をリアルタイムに観察。タイムライン制御で1ステップずつ前後に動かせます。</p>
       <div class="tags">
         <span class="tag">バブル</span>
         <span class="tag">選択</span>
@@ -36,6 +39,8 @@
         <span class="tag">マージ</span>
         <span class="tag">クイック</span>
         <span class="tag">ヒープ</span>
+        <span class="tag">シェル</span>
+        <span class="tag">カクテル</span>
       </div>
     </a>
 
@@ -60,6 +65,18 @@
         <span class="tag">A*</span>
       </div>
     </a>
+
+    <a class="card" href="structures.html">
+      <div class="icon">🌳</div>
+      <h3>データ構造</h3>
+      <p>スタック・キュー・二分探索木の操作を可視化。挿入・削除・探索・木の巡回をアニメーションで学べます。</p>
+      <div class="tags">
+        <span class="tag">スタック</span>
+        <span class="tag">キュー</span>
+        <span class="tag">二分探索木</span>
+        <span class="tag">巡回</span>
+      </div>
+    </a>
   </div>
 
   <section style="margin-top:64px;">
@@ -70,7 +87,7 @@
       </div>
       <div class="info-box">
         <h3>⚙️ 使い方</h3>
-        <p>アルゴリズムを選択し「実行」ボタンで開始します。スライダーで速度やデータ量を調整可能。経路探索ページではマウスドラッグで壁を描けます。すべてブラウザ内で完結し、サーバー不要です。</p>
+        <p>アルゴリズムを選択し「実行」ボタンで開始します。ソートページのタイムラインで1ステップずつ再生・巻き戻しが可能。右上のボタンでライト/ダークテーマを切り替えられます。すべてブラウザ内で完結し、サーバー不要です。</p>
       </div>
     </div>
   </section>

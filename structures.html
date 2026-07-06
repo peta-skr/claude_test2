@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>データ構造 — AlgoViz</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>">
+<script src="js/theme.js"></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="index.html"><span class="logo">A</span>AlgoViz</a>
+  <a class="link" href="index.html">ホーム</a>
+  <a class="link" href="sorting.html">ソート</a>
+  <a class="link" href="searching.html">探索</a>
+  <a class="link" href="pathfinding.html">経路探索</a>
+  <a class="link active" href="structures.html">データ構造</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">🌙</button>
+</nav>
+
+<div class="container">
+  <div class="page-head">
+    <h1>🌳 データ構造</h1>
+    <p>基本的なデータ構造の操作を可視化します。要素の出入りや木の探索・巡回がどのように行われるかをアニメーションで確認しましょう。</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-mode="stack">📚 スタック</button>
+    <button class="tab" data-mode="queue">🚶 キュー</button>
+    <button class="tab" data-mode="bst">🌳 二分探索木</button>
+  </div>
+
+  <!-- Stack controls -->
+  <div class="panel mode-panel" data-mode="stack">
+    <div class="control">
+      <label for="stackVal">値</label>
+      <input type="text" id="stackVal" style="width:90px" inputmode="numeric" placeholder="例: 7">
+    </div>
+    <button class="btn primary" id="stackPush">⬆ Push</button>
+    <button class="btn" id="stackPop">⬇ Pop</button>
+    <button class="btn" id="stackPeek">👁 Peek</button>
+    <button class="btn" id="stackRand">🎲 ランダム</button>
+    <button class="btn danger" id="stackClear">クリア</button>
+  </div>
+
+  <!-- Queue controls -->
+  <div class="panel mode-panel" data-mode="queue" hidden>
+    <div class="control">
+      <label for="queueVal">値</label>
+      <input type="text" id="queueVal" style="width:90px" inputmode="numeric" placeholder="例: 7">
+    </div>
+    <button class="btn primary" id="queueEnq">⬅ Enqueue</button>
+    <button class="btn" id="queueDeq">➡ Dequeue</button>
+    <button class="btn" id="queueRand">🎲 ランダム</button>
+    <button class="btn danger" id="queueClear">クリア</button>
+  </div>
+
+  <!-- BST controls -->
+  <div class="panel mode-panel" data-mode="bst" hidden>
+    <div class="control">
+      <label for="bstVal">値</label>
+      <input type="text" id="bstVal" style="width:90px" inputmode="numeric" placeholder="例: 42">
+    </div>
+    <button class="btn primary" id="bstInsert">挿入</button>
+    <button class="btn" id="bstSearch">🔍 探索</button>
+    <button class="btn" id="bstDelete">🗑 削除</button>
+    <span style="width:1px;height:26px;background:var(--border)"></span>
+    <button class="btn" id="bstIn">中間順</button>
+    <button class="btn" id="bstPre">前順</button>
+    <button class="btn" id="bstPost">後順</button>
+    <button class="btn" id="bstLevel">レベル順</button>
+    <button class="btn" id="bstRand">🎲 生成</button>
+    <button class="btn danger" id="bstClear">クリア</button>
+  </div>
+
+  <div class="viz">
+    <div class="ds-area" id="stackArea" data-mode="stack"></div>
+    <div class="ds-area" id="queueArea" data-mode="queue" hidden></div>
+    <div class="tree-wrap" id="bstArea" data-mode="bst" hidden></div>
+    <div class="seq" id="seq"></div>
+    <div class="msg" id="msg" style="margin-top:16px"></div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <h3 id="infoName"></h3>
+      <p id="infoDesc"></p>
+      <table class="complexity-table" id="infoTable"></table>
+    </div>
+    <div class="info-box">
+      <h3>疑似コード / ポイント</h3>
+      <pre class="code" id="pseudo"></pre>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">AlgoViz — データ構造</footer>
+<script src="js/structures.js"></script>
+</body>
+</html>
