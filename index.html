@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlgoViz — アルゴリズム可視化学習サイト</title>
+<meta name="description" content="ソート・探索・経路探索アルゴリズムをインタラクティブに可視化して学べる学習サイト。">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="index.html"><span class="logo">A</span>AlgoViz</a>
+  <a class="link active" href="index.html">ホーム</a>
+  <a class="link" href="sorting.html">ソート</a>
+  <a class="link" href="searching.html">探索</a>
+  <a class="link" href="pathfinding.html">経路探索</a>
+</nav>
+
+<div class="container">
+  <section class="hero">
+    <span class="badge">インタラクティブ・アルゴリズム学習</span>
+    <h1>アルゴリズムを<br>「見て」理解する</h1>
+    <p>ソート・探索・経路探索の代表的なアルゴリズムを、ステップごとにアニメーションで可視化。速度やデータを自由に変えながら、動きの仕組みを直感的に学べます。</p>
+  </section>
+
+  <div class="grid">
+    <a class="card" href="sorting.html">
+      <div class="icon">📊</div>
+      <h3>ソートアルゴリズム</h3>
+      <p>棒グラフが並び替わる様子をリアルタイムに観察。比較・交換の回数もカウントします。</p>
+      <div class="tags">
+        <span class="tag">バブル</span>
+        <span class="tag">選択</span>
+        <span class="tag">挿入</span>
+        <span class="tag">マージ</span>
+        <span class="tag">クイック</span>
+        <span class="tag">ヒープ</span>
+      </div>
+    </a>
+
+    <a class="card" href="searching.html">
+      <div class="icon">🔍</div>
+      <h3>探索アルゴリズム</h3>
+      <p>配列から目的の値を探す過程を可視化。線形探索と二分探索の効率の差を体感できます。</p>
+      <div class="tags">
+        <span class="tag">線形探索</span>
+        <span class="tag">二分探索</span>
+      </div>
+    </a>
+
+    <a class="card" href="pathfinding.html">
+      <div class="icon">🗺️</div>
+      <h3>経路探索アルゴリズム</h3>
+      <p>グリッド上で壁を描き、最短経路を探索。BFS・DFS・ダイクストラ・A* を比較できます。</p>
+      <div class="tags">
+        <span class="tag">BFS</span>
+        <span class="tag">DFS</span>
+        <span class="tag">Dijkstra</span>
+        <span class="tag">A*</span>
+      </div>
+    </a>
+  </div>
+
+  <section style="margin-top:64px;">
+    <div class="info-grid">
+      <div class="info-box">
+        <h3>🎓 学習のヒント</h3>
+        <p>各アルゴリズムのページには疑似コードと計算量（Big-O）の解説を用意しています。まずは速度を落として1ステップずつ観察し、慣れてきたら大きなデータで挙動の違いを比べてみましょう。</p>
+      </div>
+      <div class="info-box">
+        <h3>⚙️ 使い方</h3>
+        <p>アルゴリズムを選択し「実行」ボタンで開始します。スライダーで速度やデータ量を調整可能。経路探索ページではマウスドラッグで壁を描けます。すべてブラウザ内で完結し、サーバー不要です。</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">
+  AlgoViz — アルゴリズム可視化学習サイト · Vanilla JS で構築 · ビルド不要
+</footer>
+</body>
+</html>

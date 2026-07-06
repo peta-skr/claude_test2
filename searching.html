@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>探索アルゴリズム — AlgoViz</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="index.html"><span class="logo">A</span>AlgoViz</a>
+  <a class="link" href="index.html">ホーム</a>
+  <a class="link" href="sorting.html">ソート</a>
+  <a class="link active" href="searching.html">探索</a>
+  <a class="link" href="pathfinding.html">経路探索</a>
+</nav>
+
+<div class="container">
+  <div class="page-head">
+    <h1>🔍 探索アルゴリズム</h1>
+    <p>配列から目的の値を探します。線形探索は先頭から順に確認、二分探索は範囲を半分ずつ絞り込みます（二分探索はソート済み配列が前提です）。</p>
+  </div>
+
+  <div class="panel">
+    <div class="control">
+      <label for="algo">アルゴリズム</label>
+      <select id="algo">
+        <option value="linear">線形探索</option>
+        <option value="binary">二分探索</option>
+      </select>
+    </div>
+    <div class="control">
+      <label for="size">データ数 <span class="value" id="sizeVal">15</span></label>
+      <input type="range" id="size" min="5" max="30" value="15">
+    </div>
+    <div class="control">
+      <label for="speed">速度 <span class="value" id="speedVal">中</span></label>
+      <input type="range" id="speed" min="1" max="100" value="55">
+    </div>
+    <div class="control">
+      <label for="target">探す値</label>
+      <input type="text" id="target" style="width:90px" inputmode="numeric" placeholder="例: 42">
+    </div>
+    <button class="btn" id="regen">🔀 生成</button>
+    <button class="btn primary" id="run">▶ 探索</button>
+    <button class="btn danger" id="stop" disabled>■ 停止</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">比較回数</div><div class="v" id="cmp">0</div></div>
+    <div class="stat"><div class="k">探索範囲</div><div class="v" id="rangeSize">-</div></div>
+    <div class="stat"><div class="k">結果</div><div class="v" id="result">-</div></div>
+  </div>
+
+  <div class="viz">
+    <div class="legend">
+      <div class="item"><span class="sw" style="background:rgba(255,180,84,.4);border:2px solid var(--accent-warm)"></span>確認中</div>
+      <div class="item"><span class="sw" style="background:transparent;border:2px solid var(--accent)"></span>探索範囲</div>
+      <div class="item"><span class="sw" style="background:transparent;border:2px solid #c88cff"></span>中央(mid)</div>
+      <div class="item"><span class="sw" style="background:rgba(81,207,102,.2);border:2px solid var(--success)"></span>発見</div>
+    </div>
+    <div class="cells" id="cells"></div>
+    <div class="msg" id="msg" style="margin-top:20px"></div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <h3 id="infoName">線形探索</h3>
+      <p id="infoDesc"></p>
+      <table class="complexity-table">
+        <tr><td>最良計算量</td><td id="cBest"></td></tr>
+        <tr><td>平均計算量</td><td id="cAvg"></td></tr>
+        <tr><td>最悪計算量</td><td id="cWorst"></td></tr>
+        <tr><td>前提条件</td><td id="cPre"></td></tr>
+      </table>
+    </div>
+    <div class="info-box">
+      <h3>疑似コード</h3>
+      <pre class="code" id="pseudo"></pre>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">AlgoViz — 探索アルゴリズム</footer>
+<script src="js/searching.js"></script>
+</body>
+</html>

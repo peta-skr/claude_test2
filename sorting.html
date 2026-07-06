@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ソートアルゴリズム — AlgoViz</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="index.html"><span class="logo">A</span>AlgoViz</a>
+  <a class="link" href="index.html">ホーム</a>
+  <a class="link active" href="sorting.html">ソート</a>
+  <a class="link" href="searching.html">探索</a>
+  <a class="link" href="pathfinding.html">経路探索</a>
+</nav>
+
+<div class="container">
+  <div class="page-head">
+    <h1>📊 ソートアルゴリズム</h1>
+    <p>棒の高さが値の大きさを表します。比較中の棒はオレンジ、交換中は赤、確定した棒は緑で表示されます。</p>
+  </div>
+
+  <div class="panel">
+    <div class="control">
+      <label for="algo">アルゴリズム</label>
+      <select id="algo">
+        <option value="bubble">バブルソート</option>
+        <option value="selection">選択ソート</option>
+        <option value="insertion">挿入ソート</option>
+        <option value="merge">マージソート</option>
+        <option value="quick">クイックソート</option>
+        <option value="heap">ヒープソート</option>
+      </select>
+    </div>
+    <div class="control">
+      <label for="size">データ数 <span class="value" id="sizeVal">40</span></label>
+      <input type="range" id="size" min="10" max="120" value="40">
+    </div>
+    <div class="control">
+      <label for="speed">速度 <span class="value" id="speedVal">中</span></label>
+      <input type="range" id="speed" min="1" max="100" value="60">
+    </div>
+    <button class="btn" id="shuffle">🔀 シャッフル</button>
+    <button class="btn primary" id="run">▶ 実行</button>
+    <button class="btn danger" id="stop" disabled>■ 停止</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">比較回数</div><div class="v" id="cmp">0</div></div>
+    <div class="stat"><div class="k">交換 / 書込</div><div class="v" id="swp">0</div></div>
+    <div class="stat"><div class="k">経過</div><div class="v" id="elapsed">0.0s</div></div>
+  </div>
+
+  <div class="viz">
+    <div class="bars" id="bars"></div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <h3 id="infoName">バブルソート</h3>
+      <p id="infoDesc"></p>
+      <table class="complexity-table">
+        <tr><td>最良計算量</td><td id="cBest">O(n)</td></tr>
+        <tr><td>平均計算量</td><td id="cAvg">O(n²)</td></tr>
+        <tr><td>最悪計算量</td><td id="cWorst">O(n²)</td></tr>
+        <tr><td>空間計算量</td><td id="cSpace">O(1)</td></tr>
+        <tr><td>安定性</td><td id="cStable">安定</td></tr>
+      </table>
+    </div>
+    <div class="info-box">
+      <h3>疑似コード</h3>
+      <pre class="code" id="pseudo"></pre>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">AlgoViz — ソートアルゴリズム</footer>
+<script src="js/sorting.js"></script>
+</body>
+</html>

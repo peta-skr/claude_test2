@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>経路探索アルゴリズム — AlgoViz</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="index.html"><span class="logo">A</span>AlgoViz</a>
+  <a class="link" href="index.html">ホーム</a>
+  <a class="link" href="sorting.html">ソート</a>
+  <a class="link" href="searching.html">探索</a>
+  <a class="link active" href="pathfinding.html">経路探索</a>
+</nav>
+
+<div class="container">
+  <div class="page-head">
+    <h1>🗺️ 経路探索アルゴリズム</h1>
+    <p>緑がスタート、赤がゴールです。マス目をドラッグして壁を描き、各アルゴリズムがどのように探索して最短経路を見つけるか比較しましょう。</p>
+  </div>
+
+  <div class="panel">
+    <div class="control">
+      <label for="algo">アルゴリズム</label>
+      <select id="algo">
+        <option value="bfs">幅優先探索 (BFS)</option>
+        <option value="dfs">深さ優先探索 (DFS)</option>
+        <option value="dijkstra">ダイクストラ法</option>
+        <option value="astar">A* (エースター)</option>
+      </select>
+    </div>
+    <div class="control">
+      <label for="speed">速度 <span class="value" id="speedVal">中</span></label>
+      <input type="range" id="speed" min="1" max="100" value="65">
+    </div>
+    <button class="btn" id="run">▶ 探索</button>
+    <button class="btn" id="maze">🧱 迷路生成</button>
+    <button class="btn" id="clearWalls">壁を消す</button>
+    <button class="btn danger" id="reset">リセット</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">訪問ノード</div><div class="v" id="visited">0</div></div>
+    <div class="stat"><div class="k">経路の長さ</div><div class="v" id="pathLen">-</div></div>
+    <div class="stat"><div class="k">最短保証</div><div class="v" id="optimal">-</div></div>
+  </div>
+
+  <div class="viz">
+    <div class="legend">
+      <div class="item"><span class="sw" style="background:var(--success)"></span>スタート</div>
+      <div class="item"><span class="sw" style="background:var(--danger)"></span>ゴール</div>
+      <div class="item"><span class="sw" style="background:#3a4152"></span>壁</div>
+      <div class="item"><span class="sw" style="background:rgba(108,140,255,.45)"></span>訪問済</div>
+      <div class="item"><span class="sw" style="background:rgba(79,209,197,.55)"></span>フロンティア</div>
+      <div class="item"><span class="sw" style="background:var(--accent-warm)"></span>最短経路</div>
+    </div>
+    <div class="grid-wrap">
+      <div class="grid-board" id="board"></div>
+    </div>
+    <div class="msg" id="msg" style="margin-top:18px"></div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <h3 id="infoName"></h3>
+      <p id="infoDesc"></p>
+      <table class="complexity-table">
+        <tr><td>データ構造</td><td id="cDs"></td></tr>
+        <tr><td>時間計算量</td><td id="cTime"></td></tr>
+        <tr><td>最短経路保証</td><td id="cOpt"></td></tr>
+        <tr><td>重み対応</td><td id="cWeight"></td></tr>
+      </table>
+    </div>
+    <div class="info-box">
+      <h3>疑似コード</h3>
+      <pre class="code" id="pseudo"></pre>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">AlgoViz — 経路探索アルゴリズム</footer>
+<script src="js/pathfinding.js"></script>
+</body>
+</html>
