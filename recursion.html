@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>再帰の可視化 — AlgoViz</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔁</text></svg>">
+<script src="js/theme.js"></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="index.html"><span class="logo">A</span>AlgoViz</a>
+  <a class="link" href="index.html">ホーム</a>
+  <a class="link" href="sorting.html">ソート</a>
+  <a class="link" href="searching.html">探索</a>
+  <a class="link" href="pathfinding.html">経路探索</a>
+  <a class="link" href="structures.html">データ構造</a>
+  <a class="link" href="race.html">レース</a>
+  <a class="link active" href="recursion.html">再帰</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">🌙</button>
+</nav>
+
+<div class="container">
+  <div class="page-head">
+    <h1>🔁 再帰の可視化</h1>
+    <p>再帰的なアルゴリズムが「自分自身を呼び出しながら」問題を解いていく様子を可視化します。フィボナッチの呼び出し木と、ハノイの塔の2種類を用意しました。</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-mode="fib">🌲 フィボナッチ呼び出し木</button>
+    <button class="tab" data-mode="hanoi">🗼 ハノイの塔</button>
+  </div>
+
+  <!-- Fibonacci controls -->
+  <div class="panel mode-panel" data-mode="fib">
+    <div class="control">
+      <label for="fibN">n = <span class="value" id="fibNVal">5</span></label>
+      <input type="range" id="fibN" min="1" max="8" value="5">
+    </div>
+    <div class="control">
+      <label for="fibSpeed">速度 <span class="value" id="fibSpeedVal">中</span></label>
+      <input type="range" id="fibSpeed" min="1" max="100" value="60">
+    </div>
+    <div class="algo-picker"><label><input type="checkbox" id="fibMemo"> メモ化する</label></div>
+    <button class="btn primary" id="fibRun">▶ 実行</button>
+    <button class="btn danger" id="fibStop" disabled>■ 停止</button>
+  </div>
+
+  <!-- Hanoi controls -->
+  <div class="panel mode-panel" data-mode="hanoi" hidden>
+    <div class="control">
+      <label for="hanoiN">円盤の数 <span class="value" id="hanoiNVal">3</span></label>
+      <input type="range" id="hanoiN" min="1" max="6" value="3">
+    </div>
+    <div class="control">
+      <label for="hanoiSpeed">速度 <span class="value" id="hanoiSpeedVal">中</span></label>
+      <input type="range" id="hanoiSpeed" min="1" max="100" value="55">
+    </div>
+    <button class="btn primary" id="hanoiRun">▶ 実行</button>
+    <button class="btn" id="hanoiReset">リセット</button>
+    <button class="btn danger" id="hanoiStop" disabled>■ 停止</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k" id="stat1k">呼び出し回数</div><div class="v" id="stat1">0</div></div>
+    <div class="stat"><div class="k" id="stat2k">結果</div><div class="v" id="stat2">-</div></div>
+    <div class="stat"><div class="k" id="stat3k">メモ化なら</div><div class="v" id="stat3">-</div></div>
+  </div>
+
+  <div class="viz">
+    <div class="legend" id="legend"></div>
+    <div class="tree-wrap" id="fibArea" data-mode="fib"></div>
+    <div id="hanoiArea" data-mode="hanoi" hidden></div>
+    <div class="msg" id="msg" style="margin-top:16px"></div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <h3 id="infoName"></h3>
+      <p id="infoDesc"></p>
+      <table class="complexity-table" id="infoTable"></table>
+    </div>
+    <div class="info-box">
+      <h3>疑似コード</h3>
+      <pre class="code" id="pseudo"></pre>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">AlgoViz — 再帰の可視化</footer>
+<script src="js/recursion.js"></script>
+</body>
+</html>

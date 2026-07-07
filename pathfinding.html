@@ -16,13 +16,15 @@
   <a class="link" href="searching.html">探索</a>
   <a class="link active" href="pathfinding.html">経路探索</a>
   <a class="link" href="structures.html">データ構造</a>
+  <a class="link" href="race.html">レース</a>
+  <a class="link" href="recursion.html">再帰</a>
   <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">🌙</button>
 </nav>
 
 <div class="container">
   <div class="page-head">
     <h1>🗺️ 経路探索アルゴリズム</h1>
-    <p>緑がスタート、赤がゴールです。マス目をドラッグして壁を描き、各アルゴリズムがどのように探索して最短経路を見つけるか比較しましょう。</p>
+    <p>緑がスタート、赤がゴールです。描画モードを切り替えてマス目をドラッグし、壁や「重み地形(コスト5)」を配置できます。ダイクストラ法・A* は重みを考慮して総コスト最小の経路を、BFS・DFS は重みを無視して探索する違いを比較しましょう。</p>
   </div>
 
   <div class="panel">
@@ -39,15 +41,23 @@
       <label for="speed">速度 <span class="value" id="speedVal">中</span></label>
       <input type="range" id="speed" min="1" max="100" value="65">
     </div>
+    <div class="control">
+      <label for="brush">描画モード</label>
+      <select id="brush">
+        <option value="wall">🧱 壁</option>
+        <option value="weight">🏔️ 重み地形 (コスト5)</option>
+      </select>
+    </div>
     <button class="btn" id="run">▶ 探索</button>
     <button class="btn" id="maze">🧱 迷路生成</button>
-    <button class="btn" id="clearWalls">壁を消す</button>
+    <button class="btn" id="clearWalls">地形を消す</button>
     <button class="btn danger" id="reset">リセット</button>
   </div>
 
   <div class="stats">
     <div class="stat"><div class="k">訪問ノード</div><div class="v" id="visited">0</div></div>
     <div class="stat"><div class="k">経路の長さ</div><div class="v" id="pathLen">-</div></div>
+    <div class="stat"><div class="k">経路コスト</div><div class="v" id="pathCost">-</div></div>
     <div class="stat"><div class="k">最短保証</div><div class="v" id="optimal">-</div></div>
   </div>
 
@@ -56,6 +66,7 @@
       <div class="item"><span class="sw" style="background:var(--success)"></span>スタート</div>
       <div class="item"><span class="sw" style="background:var(--danger)"></span>ゴール</div>
       <div class="item"><span class="sw" style="background:#3a4152"></span>壁</div>
+      <div class="item"><span class="sw" style="background:#7a5a2a"></span>重み(5)</div>
       <div class="item"><span class="sw" style="background:rgba(108,140,255,.45)"></span>訪問済</div>
       <div class="item"><span class="sw" style="background:rgba(79,209,197,.55)"></span>フロンティア</div>
       <div class="item"><span class="sw" style="background:var(--accent-warm)"></span>最短経路</div>

@@ -6,25 +6,28 @@ const runBtn = document.getElementById('run');
 const mazeBtn = document.getElementById('maze');
 const clearBtn = document.getElementById('clearWalls');
 const resetBtn = document.getElementById('reset');
+const brushSel = document.getElementById('brush');
 const visitedEl = document.getElementById('visited');
 const pathLenEl = document.getElementById('pathLen');
+const pathCostEl = document.getElementById('pathCost');
 const optimalEl = document.getElementById('optimal');
 const msgEl = document.getElementById('msg');
 
+const WEIGHT_COST = 5;  // cost to enter a weighted ("terrain") cell
 let COLS = 35, ROWS = 21;
-let grid = [];          // grid[r][c] = { wall }
+let grid = [];          // grid[r][c] = { wall, weight }
 let nodes = [];         // DOM refs
 let start = { r: 10, c: 6 };
 let end = { r: 10, c: 28 };
 let running = false;
 let mouseDown = false;
-let dragMode = null;    // 'wall' | 'erase' | 'start' | 'end'
+let dragMode = null;    // 'wall' | 'erase' | 'weight' | 'unweight' | 'start' | 'end'
 
 const INFO = {
   bfs: {
     name: '幅優先探索 (BFS)',
-    desc: 'スタートから近い順に波紋のように探索を広げます。キューを使い、重みなしグリッドでは常に最短経路を発見します。全方向を均等に調べるため訪問ノードは多くなりがちです。',
-    ds: 'キュー (FIFO)', time: 'O(V + E)', opt: '保証あり', weight: '非対応',
+    desc: 'スタートから近い順に波紋のように探索を広げます。キューを使い、重みなしグリッドでは常に最短経路を発見します。重み地形は無視して「距離」だけで進むため、重み地帯を平気で突っ切ります。',
+    ds: 'キュー (FIFO)', time: 'O(V + E)', opt: '距離のみ', weight: '非対応（無視）',
     code:
 `queue = [start]
 while queue:
@@ -36,8 +39,8 @@ while queue:
   },
   dfs: {
     name: '深さ優先探索 (DFS)',
-    desc: '行けるところまで一方向に進み、行き止まりで引き返します。スタックを使用。実装は単純ですが、最短経路である保証はなく、遠回りな経路を返すことがあります。',
-    ds: 'スタック (LIFO)', time: 'O(V + E)', opt: 'なし', weight: '非対応',
+    desc: '行けるところまで一方向に進み、行き止まりで引き返します。スタックを使用。実装は単純ですが、最短経路である保証はなく、遠回りな経路を返すことがあります。重みも無視します。',
+    ds: 'スタック (LIFO)', time: 'O(V + E)', opt: 'なし', weight: '非対応（無視）',
     code:
 `stack = [start]
 while stack:
@@ -104,7 +107,7 @@ function build() {
   for (let r = 0; r < ROWS; r++) {
     grid[r] = []; nodes[r] = [];
     for (let c = 0; c < COLS; c++) {
-      grid[r][c] = { wall: false };
+      grid[r][c] = { wall: false, weight: 1 };
       const d = document.createElement('div');
       d.className = 'node';
       d.dataset.r = r; d.dataset.c = c;
@@ -136,6 +139,7 @@ function clearSearch() {
       nodes[r][c].classList.remove('visited', 'frontier', 'path');
   visitedEl.textContent = '0';
   pathLenEl.textContent = '-';
+  pathCostEl.textContent = '-';
   optimalEl.textContent = '-';
   msgEl.textContent = '';
   msgEl.className = 'msg';
@@ -145,7 +149,8 @@ function clearWalls() {
   for (let r = 0; r < ROWS; r++)
     for (let c = 0; c < COLS; c++) {
       grid[r][c].wall = false;
-      nodes[r][c].classList.remove('wall');
+      grid[r][c].weight = 1;
+      nodes[r][c].classList.remove('wall', 'weight');
     }
   clearSearch();
 }
@@ -163,6 +168,10 @@ function cellFrom(el) {
   if (!el || !el.dataset || el.dataset.r === undefined) return null;
   return { r: +el.dataset.r, c: +el.dataset.c };
 }
+function brushDragMode(r, c) {
+  if (brushSel.value === 'weight') return grid[r][c].weight > 1 ? 'unweight' : 'weight';
+  return grid[r][c].wall ? 'erase' : 'wall';
+}
 function onDown(e) {
   if (running) return;
   const cell = cellFrom(e.target);
@@ -170,7 +179,7 @@ function onDown(e) {
   mouseDown = true;
   if (cell.r === start.r && cell.c === start.c) dragMode = 'start';
   else if (cell.r === end.r && cell.c === end.c) dragMode = 'end';
-  else { dragMode = grid[cell.r][cell.c].wall ? 'erase' : 'wall'; applyDrag(cell); }
+  else { dragMode = brushDragMode(cell.r, cell.c); applyDrag(cell); }
 }
 function onOver(e) {
   if (!mouseDown || running) return;
@@ -186,16 +195,19 @@ function onTouch(e) {
   if (!cell) return;
   if (e.type === 'touchstart') {
     if (isTerminal(cell.r, cell.c)) dragMode = (cell.r === start.r && cell.c === start.c) ? 'start' : 'end';
-    else { dragMode = grid[cell.r][cell.c].wall ? 'erase' : 'wall'; }
+    else dragMode = brushDragMode(cell.r, cell.c);
   }
   applyDrag(cell);
 }
 function applyDrag(cell) {
   const { r, c } = cell;
-  if (dragMode === 'wall' && !isTerminal(r, c)) { grid[r][c].wall = true; nodes[r][c].classList.add('wall'); }
-  else if (dragMode === 'erase' && !isTerminal(r, c)) { grid[r][c].wall = false; nodes[r][c].classList.remove('wall'); }
-  else if (dragMode === 'start' && !grid[r][c].wall && !(r === end.r && c === end.c)) { start = { r, c }; paintTerminals(); }
-  else if (dragMode === 'end' && !grid[r][c].wall && !(r === start.r && c === start.c)) { end = { r, c }; paintTerminals(); }
+  const g = grid[r][c], el = nodes[r][c];
+  if (dragMode === 'wall' && !isTerminal(r, c)) { g.wall = true; g.weight = 1; el.classList.add('wall'); el.classList.remove('weight'); }
+  else if (dragMode === 'erase' && !isTerminal(r, c)) { g.wall = false; el.classList.remove('wall'); }
+  else if (dragMode === 'weight' && !isTerminal(r, c)) { g.weight = WEIGHT_COST; g.wall = false; el.classList.add('weight'); el.classList.remove('wall'); }
+  else if (dragMode === 'unweight' && !isTerminal(r, c)) { g.weight = 1; el.classList.remove('weight'); }
+  else if (dragMode === 'start' && !g.wall && !(r === end.r && c === end.c)) { start = { r, c }; paintTerminals(); }
+  else if (dragMode === 'end' && !g.wall && !(r === start.r && c === start.c)) { end = { r, c }; paintTerminals(); }
 }
 
 // ---- Search algorithms (generator-style: yield frames) ----
@@ -258,7 +270,7 @@ async function search() {
       }
     }
   } else {
-    // dijkstra / astar — uniform weight of 1, A* adds heuristic
+    // dijkstra / astar — per-cell weight as edge cost, A* adds heuristic
     const dist = new Map();
     const pq = new PQ();
     dist.set(key(start.r, start.c), 0);
@@ -272,7 +284,7 @@ async function search() {
       await markVisited(r, c);
       for (const [nr, nc] of neighbors(r, c)) {
         const nk = key(nr, nc);
-        const nd = dist.get(k) + 1;
+        const nd = dist.get(k) + grid[nr][nc].weight;
         if (nd < (dist.get(nk) ?? Infinity)) {
           dist.set(nk, nd);
           prev.set(nk, k);
@@ -294,18 +306,25 @@ async function search() {
       cur = prev.get(cur);
     }
     path.reverse();
+    let cost = 0;
     for (const k of path) {
       const r = Math.floor(k / COLS), c = k % COLS;
+      cost += grid[r][c].weight; // cost to enter each cell along the path
       if (!isTerminal(r, c)) nodes[r][c].classList.add('path');
       await sleep(Math.max(8, delay() * 0.8));
     }
     pathLenEl.textContent = path.length + 1;
-    const opt = (algo === 'dfs') ? '×（最短でない場合あり）' : '○';
+    pathCostEl.textContent = cost;
+    const ignoresWeight = (algo === 'bfs' || algo === 'dfs');
+    const opt = (algo === 'dfs') ? '×（最短でない場合あり）'
+      : ignoresWeight ? '△（距離のみ・重み無視）' : '○（コスト最小）';
     optimalEl.textContent = opt;
-    msgEl.textContent = `✅ ゴールに到達！ 経路長 ${path.length + 1}、訪問ノード ${visitCount}`;
+    const note = ignoresWeight ? '（このアルゴリズムは重みを無視します）' : '';
+    msgEl.textContent = `✅ ゴールに到達！ 経路長 ${path.length + 1}・総コスト ${cost}、訪問 ${visitCount} ノード ${note}`;
     msgEl.className = 'msg ok';
   } else {
     pathLenEl.textContent = '到達不可';
+    pathCostEl.textContent = '-';
     optimalEl.textContent = '-';
     msgEl.textContent = '❌ 壁に囲まれていてゴールに到達できませんでした';
     msgEl.className = 'msg warn';
